@@ -1,0 +1,39 @@
+*{
+    font-family: "Lexend", sans-serif;
+}
+
+
+.black-bg {
+    background-color: #010102;
+}
+
+
+.dark-bg {
+    background-color: #282838;
+}
+
+.fontlex {
+    color:white;
+    font-family: "Lexend", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;   
+}
+
+.fontlexmega {
+    font-family: "Lexend Mega", sans-serif;
+    font-weight: 400; 
+    font-optical-sizing: auto;
+}
+
+.black {
+    color:black;
+}
+
+.color-s2 {
+    color:#282838;
+}
+
+.b {
+    font-weight: bold;
+}
