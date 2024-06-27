@@ -1,6 +1,11 @@
 #CS50's Web Programming with Python and Javascript Final Project (Capstone)
 
-This is the last one! It's been quite a fun and interesting journey going through this course although. I want to extend my heartfelt thanks to all the staff and lecturers who made this CS50 Web Programming course possible.
+My team:
+Adimas Irfannanto
+Farid Nafis Tsani
+Jason
+
+This is the last one! It's been quite a fun and interesting journey going through this course although. We want to extend my heartfelt thanks to all the staff and lecturers who made this CS50 Web Programming course possible.
 
 ## Wasters - Trash Management
 Wasters is my project which was developed for the CS50 web course final project, the website contained a management style website where users can order a trash disposal service from local waste services providers, or you can also be a provider that manage waste services for the customers.
