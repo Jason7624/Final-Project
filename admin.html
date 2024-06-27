@@ -1,0 +1,125 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<body class="sb-nav-fixed">
+
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="/dashboard">Admin Panel</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+         
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/sign_out">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+
+        {% include "dashboard/admin_side_panel.html" %}
+
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4 display-6">Dashboard</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active">Overview</li>
+                    </ol>
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card text-dark mb-4">
+                                <div class="card-body">
+                                    <table class='table h4 fw-light' style="font-weight:light;">
+                                        <tr>
+                                            <td>Total Services</td>
+                                            <td>{{collections}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card text-dark mb-4">
+                                <div class="card-body">
+                                    <table class='table h4 fw-light' style="font-weight:light;">
+                                        <tr>
+                                            <td>Collectors</td>
+                                            <td>{{collectors}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card text-dark mb-4">
+                                <div class="card-body">
+                                    <table class='table h4 fw-light' style="font-weight:light;">
+                                        <tr>
+                                            <td>Customers</td>
+                                            <td>{{customers}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+
+
+
+                    
+                </div>
+
+                <div class="container-fluid px-4">
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active">Collection Requests</li>
+                    </ol>
+                    <div class="row">
+                        {% for data in area_data %}
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card text-dark mb-4">
+                                <div class="card-body">
+                                    <p class="text-capitalize text-muted" style='font-weight: bold'>{{data.name}}</p>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-{{data.color}}" role="progressbar" style="width: {{data.counter}}%" aria-valuenow="{{data.counter}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="my-2">
+                                        <span class="rounded px-3 py-1 bg-light text-dark">Progress: {{data.progress}}</span>
+                                        <span class="rounded px-3 py-1 text-{{data.color}}">Requests: {{data.requests}}</span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+
+                </div>
+            </main>
+            
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'dashboard/js/scripts.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'dashboard/assets/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'dashboard/assets/demo/chart-bar-demo.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'dashboard/assets/js/datatables-simple-demo.js' %}"></script>
+</body>
+{% endblock body %}
+    
+
+    

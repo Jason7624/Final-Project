@@ -1,0 +1,212 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %} My Dashboard{% endblock %}
+
+{% block body %}
+<body class="sb-nav-fixed">
+
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="producer_dashboard">My Dashboard</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+         
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/sign_out">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+
+        {% include "dashboard/producer_side_panel.html" %}
+
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4 display-6">{{greetings}}</h1>
+
+                    <div class="container my-4">
+                        <div class="bg-light border rounded border-0 border-light d-flex flex-column justify-content-between flex-lg-row p-4 p-md-5">
+                            <div class="pb-2 pb-lg-1">
+                                <h2 class="mb-2 fw-light" id="banner-title"></h2>
+                                <p class="mb-0" id="banner-content"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% comment %} script to animate banner {% endcomment %}
+                    <script>
+                        
+                        // Define an array of banner content objects
+                        var bannerContentList = [
+                          {
+                            title: "Payment Reminders",
+                            content: "Stay on top of your subscription by receiving timely payment reminders. Never miss a payment and keep your waste management services uninterrupted.",
+                          },
+                          {
+                            title: "Waste Collection Dates",
+                            content: "Mark your calendars with our scheduled waste collection dates. Stay organized and contribute to a cleaner environment by following the designated collection dates.",
+                          },
+                          {
+                            title: "Service Updates",
+                            content: "Stay informed about any service updates or changes in our waste management system. Keep an eye on your dashboard for the latest updates and improvements.",
+                          },
+                          {
+                            title: "Customer Support",
+                            content: "Our dedicated customer support team is here to assist you. Reach out to us if you have any questions, concerns, or need assistance with your waste management services.",
+                          }
+                        ];
+                      
+                        var bannerIndex = 0; // Current index of the banner content
+                        var bannerTitle = document.getElementById("banner-title");
+                        var bannerContent = document.getElementById("banner-content");
+                      
+                        function showNextBanner() {
+                          bannerTitle.innerHTML = bannerContentList[bannerIndex].title;
+                          bannerContent.innerHTML = bannerContentList[bannerIndex].content;
+                      
+                          // Increment the index to show the next banner content
+                          bannerIndex = (bannerIndex + 1) % bannerContentList.length;
+                        }
+                      
+                            // Show the first banner immediately
+                            showNextBanner();
+                        
+                            // Automatically switch banners every 3 seconds
+                            setInterval(showNextBanner, 5000);
+                        
+                      </script>
+                      
+                </div>
+
+                <div class="container px-4">
+                    
+                    <div class="row px-2">
+                        
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-area me-1"></i>
+                                    Services History
+                                </div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <td scope="col">Date</td>
+                                                <td scope="col">Waste Type</td>
+                                                <td scope="col">Collector</td>
+                                                <td scope="col">Status</td>
+                                                <td scope="col">Payment Amount</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="fw-light">
+                                            
+                                            {% if collections %}
+                                                {% for collection in collections %}
+                                                <tr>
+                                                    <td>{{collection.time_requested}}</td>
+                                                    <td>{{collection.waste_type}}</td>
+                                                    <td>{{collection.waste_collector}}</td>
+                                                    <td>{%if collection.collection_status is True %}Complete{% else %}Pending {%endif%}</td>
+                                                    {% if subscription is True %}
+                                                    <td>Subscription</td>
+                                                    {% else %}
+                                                    <td>$20</td>
+                                                    {% endif %}
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="4">No collection history</td>
+                                                </tr>
+                                            {% endif %}
+                                                
+                                            
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-area me-1"></i>
+                                    Payment History
+                                </div>
+                                <div class="card-body">
+                                    <p class="mt-0">Current Balance: ${{ balance }}</p> 
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <td scope="col">Date</td>
+                                                <td scope="col">Amount</td>
+                                                <td scope="col">Phone Number</td>
+                                                <td scope="col">Subscription</td>
+                                                <td scope="col">Payment Method</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="fw-light">
+                                            
+                                            {% if payments %}
+                                                {% for payment in payments %}
+                                                <tr>
+                                                    <td>{{payment.payment_date}}</td>
+                                                    <td>${{payment.amount}}</td>
+                                                    <td>{{payment.phone_number}}</td>
+                                                    <td>
+                                                        
+                                                        {% if payment.payment_type == '1' %}
+                                                            Monthly
+                                                        {% else %}
+                                                            Per Request
+                                                        {% endif %}
+                                                            
+                                                    </td>
+                                                    <td> 
+                                                        {% if payment.payment_method == '1' %}
+                                                            Visa
+                                                        {% elif payment.payment_method == '2' %}
+                                                            Mastercard
+                                                        {% else %}
+                                                            PayPal
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="5">No payment history</td>
+                                                </tr>
+                                            {% endif %}
+                                                
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </main>
+            
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'dashboard/js/scripts.js' %}"></script>
+</body>
+{% endblock body %}
+    
+
+    
